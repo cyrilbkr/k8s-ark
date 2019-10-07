@@ -12,6 +12,6 @@ RUN rm -rf *
 
 RUN mkdir /opt/ark
 
-COPY ark-jobs/jobs /opt/ark/
+COPY jobs /opt/ark/
 
 WORKDIR /opt/ark
