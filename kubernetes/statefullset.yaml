@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ark-test
+  namespace: ark
+spec:
+  selector:
+    matchLabels:
+      run: ark-test
+  serviceName: "ark-test"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: ark-test
+    spec:
+      containers:
+      - name: ark-test
+        image: cyrilbkr/ark:develop
+        imagePullPolicy: Always
+        env:
+          - name: ADMINPASSWORD
+            value: "admin"
+          - name: NBPLAYERS
+            value: "10"
+          - name: SESSIONNAME
+            value: "k8s-ark"
+          - name: SERVERMAP
+            value: "Valguero_P"
+          - name: TZ
+            value: "France"
+          - name: SERVERPORT
+            value: "27018"
+          - name: STEAMPORT
+            value: "7781"
+        ports:
+        - containerPort: 27018
+          name: serverport
+          protocol: TCP
+        - containerPort: 27018
+          name: serverportudp
+          protocol: UDP
+        - containerPort: 7781
+          name: steam
+          protocol: TCP
+        - containerPort: 7781
+          name: steamudp
+          protocol: UDP
+        volumeMounts:
+        - mountPath: /ark
+          name: ark-test
+      volumes:
+      - name: ark-test
+        hostPath:
+          path: /data/ark-test
+          type: Directory

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ark-valguero
+  namespace: ark
+spec:
+  selector:
+    matchLabels:
+      run: ark-valguero
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: ark-valguero
+    spec:
+      containers:
+      - name: ark-valguero
+        image: cyrilbkr/ark
+        env:
+          - name: ADMINPASSWORD
+            value: "my_password"
+          - name: NBPLAYERS
+            value: "10"
+          - name: SESSIONNAME
+            value: "my_session_name"
+          - name: SERVERPASSWORD
+            value: "server_password"
+          - name: SERVERMAP
+            value: "map_name"
+          - name: TZ
+            value: "XX_country"
+        ports:
+        - containerPort: 27015
+          hostPort: 27015
+          name: serverport 
+          protocol: TCP
+        - containerPort: 27015
+          hostPort: 27015
+          name: serverportudp
+          protocol: UDP
+        - containerPort: 7778
+          hostPort: 7778
+          name: steam
+          protocol: TCP
+        - containerPort: 7778
+          hostPort: 7778
+          name: steamudp
+          protocol: UDP
+        - containerPort: 32330
+          hostPort: 32330
+          name: rcon
