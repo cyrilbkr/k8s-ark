@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "###########################################################################"
-echo "# Ark Server - " `date`
-echo "# UID $UID - GID $GID"
+echo "# Kubernetes Ark Server - " `date`
+echo "# https://github.com/cyrilbkr/k8s-ark"
 echo "###########################################################################"
 [ -p /tmp/FIFO ] && rm /tmp/FIFO
 mkfifo /tmp/FIFO

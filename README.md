@@ -5,18 +5,22 @@ Kubernetes configuration & Docker images to manage an Ark : Survival Evolved ser
 ## Features :
  - Easy install and management with Ark Server Tools
  - Rcon Linux client
- - Kubernetes jobs for server tasks
  - Custom Ark server config files
- - Mods support
-
 
 ## Usage
 
+Ark is deployed via a statefull set typically with pvc for persistence.
+
 ### Quick simple deployment for testing (no persistence)
 
-    $ kubectl apply -f 
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/namespace.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/service.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/statefullset.yaml
+    
 
 ### Specific configuration
+
+Alternative configurations are available in the k8s_alternative_config directoty.
 
 #### Deployment in hostport with hostdir
 
@@ -30,16 +34,22 @@ Kubernetes configuration & Docker images to manage an Ark : Survival Evolved ser
 | ADMINPASSWORD | Admin password of your ark server | admin |
 | SERVERPORT | Ark server port |  27015 |
 | STEAMPORT | Steam server port | 7778 |
-| BACKUPONSTART | Backup the server when the container is started. 0: no backup | 1 |
-| UPDATEPONSTART | Update the server when the container is started. 0: no update | 1 |
-| BACKUPONSTOP | Backup the server when the container is stopped. 0: no backup | 0 |
-| WARNONSTOP | Warn the players before the container is stopped. 0: no warning | 0 |
 
 ## Ports
 
+Ports need to be mapped as environment variables. 
+
 | Port | Description |
+| Ark Udp | 27015 |
+| Ark Tcp | 27015 |
+| Steam Udp | 7778 |
+| Steam Tcp | 7778 |
+| Rcon Tcp | 32330 |
 
 ## Volumes
+
+Everything is store in /ark, disk space depend of the map. Please check the k8s_alternative_config folder to see example of setting up persistence depending of your cloud provider.
+
 
 ## Commands
 
@@ -47,39 +57,30 @@ Check server status :
 
     kubectl exec -n ark pod_name arkmanager status
 
-You can check your server with :
-`docker exec ark arkmanager status`
+Force save :
 
-You can manually update your mods:
-`docker exec ark arkmanager update --update-mods`
+    kubectl exec -n ark pod_name arkmanager saveworld
 
-You can manually update your server:
-`docker exec ark arkmanager update --force`
+Force update : 
 
-You can force save your server :
-`docker exec ark arkmanager saveworld`
+    kubectl exec -n ark pod_name arkmanager update --force
 
-You can backup your server :
-`docker exec ark arkmanager backup`
+Force backup : 
 
-You can upgrade Ark Server Tools :
-`docker exec ark arkmanager upgrade-tools`
 
-You can use rcon command via docker :
-`docker exec ark arkmanager rconcmd ListPlayers`
-*Full list of available command [here](http://steamcommunity.com/sharedfiles/filedetails/?id=454529617&searchtext=admin)*
+    kubectl exec -n ark pod_name arkmanager backup
+
+Execute Rcon command : 
+
+    kubectl exec -n ark pod_name arkmanager rconcmd ListPlayers
+
+
+__Arkmanager command list__ [here](https://github.com/FezVrasta/ark-server-tools/blob/master/README.md)
 
 
 
 
 
-
-## Features : 
- - Easy install and management with Ark Server Tools 
- - Rcon Linux client 
- - Crontab for server tasks
- - Custom Ark server config files
- - Mods support
 
 ## Docker Images
 
@@ -97,30 +98,6 @@ You can manager your server with rcon if you map the rcon port (you can rebind t
 You can change server and steam port to allow multiple servers on same host:  
 *(You can't just rebind the port with docker. It won't work, you need to change STEAMPORT & SERVERPORT variable)*
 `docker run -d -p 7779:7779 -p 7779:7779/udp -p 27016:27016 -p 27016:27016/udp -p 32331:32330  -e SESSIONNAME=myserver2 -e SERVERPORT=27016 -e STEAMPORT=7779 --name ark2 turzam/ark`  
-
-You can check your server with :  
-`docker exec ark arkmanager status` 
-
-You can manually update your mods:  
-`docker exec ark arkmanager update --update-mods` 
-
-You can manually update your server:  
-`docker exec ark arkmanager update --force` 
-
-You can force save your server :  
-`docker exec ark arkmanager saveworld` 
-
-You can backup your server :  
-`docker exec ark arkmanager backup` 
-
-You can upgrade Ark Server Tools :  
-`docker exec ark arkmanager upgrade-tools` 
-
-You can use rcon command via docker :  
-`docker exec ark arkmanager rconcmd ListPlayers`  
-*Full list of available command [here](http://steamcommunity.com/sharedfiles/filedetails/?id=454529617&searchtext=admin)*
-
-__You can check all available command for arkmanager__ [here](https://github.com/FezVrasta/ark-server-tools/blob/master/README.md)
 
 You can easily configure automatic update and backup.  
 If you edit the file `/my/path/to/ark/crontab` you can add your crontab job.  
@@ -149,56 +126,3 @@ To add mods, you only need to change the variable ark_GameModIds in *arkmanager.
  `docker exec ark arkmanager status` 
 
 --- 
-
-### Variables
-+ __SESSIONNAME__
-Name of your ark server (default : "Ark Docker")
-+ __SERVERMAP__
-Map of your ark server (default : "TheIsland")
-+ __SERVERPASSWORD__
-Password of your ark server (default : "")
-+ __ADMINPASSWORD__
-Admin password of your ark server (default : "adminpassword")
-+ __SERVERPORT__
-Ark server port (can't rebind with docker, it doesn't work) (default : 27015)
-+ __STEAMPORT__
-Steam server port (can't rebind with docker, it doesn't work) (default : 7778)
-+ __BACKUPONSTART__
-1 : Backup the server when the container is started. 0: no backup (default : 1)
-+ __UPDATEPONSTART__
-1 : Update the server when the container is started. 0: no update (default : 1)  
-+ __BACKUPONSTOP__
-1 : Backup the server when the container is stopped. 0: no backup (default : 0)
-+ __WARNONSTOP__
-1 : Warn the players before the container is stopped. 0: no warning (default : 0)  
-+ __TZ__
-Time Zone : Set the container timezone (for crontab). (You can get your timezone posix format with the command `tzselect`. For example, France is "Europe/Paris").
-+ __UID__
-UID of the user used. Owner of the volume /ark
-+ __GID__
-GID of the user used. Owner of the volume /ark
-
-
---- 
-
-### Volumes
-+ __/ark__ : Working directory :
-    + /ark/server : Server files and data.
-    + /ark/log : logs
-    + /ark/backup : backups
-    + /ark/arkmanager.cfg : config file for Ark Server Tools
-    + /ark/crontab : crontab config file
-    + /ark/Game.ini : ark game.ini config file
-    + /ark/GameUserSetting.ini : ark gameusersetting.ini config file
-    + /ark/template : Default config files
-    + /ark/template/arkmanager.cfg : default config file for Ark Server Tools
-    + /ark/template/crontab : default config file for crontab
-    + /ark/staging : default directory if you use the --downloadonly option when updating.
-
---- 
-
-### Expose
-+ Port : __STEAMPORT__ : Steam port (default: 7778)
-+ Port : __SERVERPORT__ : server port (default: 27015)
-+ Port : __32330__ : rcon port
-
