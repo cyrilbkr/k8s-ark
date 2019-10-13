@@ -27,7 +27,7 @@ Kubernetes configuration & Docker images to manage an Ark : Survival Evolved ser
 | SESSIONNAME | Name of your ark server | Ark Docker |
 | SERVERMAP | Map of your ark server | TheIsland |
 | SERVERPASSWORD | Password of your ark server |  |
-| ADMINPASSWORD | Admin password of your ark server | adminpassword |
+| ADMINPASSWORD | Admin password of your ark server | admin |
 | SERVERPORT | Ark server port |  27015 |
 | STEAMPORT | Steam server port | 7778 |
 | BACKUPONSTART | Backup the server when the container is started. 0: no backup | 1 |
@@ -40,6 +40,37 @@ Kubernetes configuration & Docker images to manage an Ark : Survival Evolved ser
 | Port | Description |
 
 ## Volumes
+
+## Commands
+
+Check server status : 
+
+    kubectl exec -n ark pod_name arkmanager status
+
+You can check your server with :
+`docker exec ark arkmanager status`
+
+You can manually update your mods:
+`docker exec ark arkmanager update --update-mods`
+
+You can manually update your server:
+`docker exec ark arkmanager update --force`
+
+You can force save your server :
+`docker exec ark arkmanager saveworld`
+
+You can backup your server :
+`docker exec ark arkmanager backup`
+
+You can upgrade Ark Server Tools :
+`docker exec ark arkmanager upgrade-tools`
+
+You can use rcon command via docker :
+`docker exec ark arkmanager rconcmd ListPlayers`
+*Full list of available command [here](http://steamcommunity.com/sharedfiles/filedetails/?id=454529617&searchtext=admin)*
+
+
+
 
 
 

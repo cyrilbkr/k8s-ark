@@ -55,10 +55,10 @@ RUN adduser \
 RUN usermod -a -G sudo steam
 
 # Copy & rights to folders
-COPY /arkconf/run.sh /home/steam/run.sh
-COPY arkcmd.sh /home/steam/user.sh
-#COPY /arkconf/crontab /home/steam/crontab
-COPY /arkconf/arkmanager-user.cfg /home/steam/arkmanager.cfg
+COPY /docker-conf/run.sh /home/steam/run.sh
+COPY /docker-conf/arkcmd.sh /home/steam/user.sh
+#COPY /docker-conf/crontab /home/steam/crontab
+COPY /docker-conf/arkmanager-user.cfg /home/steam/arkmanager.cfg
 
 RUN touch /root/.bash_profile
 RUN chmod 777 /home/steam/run.sh
@@ -76,10 +76,10 @@ RUN chmod +x install.sh
 RUN ./install.sh steam 
 
 # Define default config file in /etc/arkmanager
-COPY arkconf/arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
+COPY docker-conf/arkmanager-system.cfg /etc/arkmanager/arkmanager.cfg
 
 # Define default config file in /etc/arkmanager
-COPY arkconf/instance.cfg /etc/arkmanager/instances/main.cfg
+COPY docker-conf/instance.cfg /etc/arkmanager/instances/main.cfg
 
 RUN chown steam -R /ark && chmod 755 -R /ark
 

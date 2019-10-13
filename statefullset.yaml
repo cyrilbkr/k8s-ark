@@ -46,11 +46,3 @@ spec:
         - containerPort: 7781
           name: steamudp
           protocol: UDP
-        volumeMounts:
-        - mountPath: /ark
-          name: ark-test
-      volumes:
-      - name: ark-test
-        hostPath:
-          path: /data/ark-test
-          type: Directory
