@@ -24,5 +24,9 @@ spec:
     protocol: UDP
     name: steamudp
     nodePort: 30781
+  - port: 32330
+    protocol: TCP
+    name: steam
+    nodePort: 32330
   selector:
     run: ark-test
