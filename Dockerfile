@@ -57,8 +57,9 @@ RUN usermod -a -G sudo steam
 # Copy & rights to folders
 COPY /docker-conf/run.sh /home/steam/run.sh
 COPY /docker-conf/arkcmd.sh /home/steam/user.sh
-#COPY /docker-conf/crontab /home/steam/crontab
 COPY /docker-conf/arkmanager-user.cfg /home/steam/arkmanager.cfg
+COPY /docker-conf/Game.ini /tmp/Game.ini
+COPY /docker-conf/GameUserSettings.ini /tmp/GameUserSettings.ini
 
 RUN touch /root/.bash_profile
 RUN chmod 777 /home/steam/run.sh

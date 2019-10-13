@@ -56,6 +56,8 @@ else
 	fi
 fi
 
+# Copy custom server settings
+
 
 # Launching ark server
 if [ $UPDATEONSTART -eq 0 ]; then

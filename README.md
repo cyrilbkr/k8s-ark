@@ -40,6 +40,7 @@ Alternative configurations are available in the k8s_alternative_config directoty
 Ports need to be mapped as environment variables. 
 
 | Port | Description |
+| ------------- |:-------------:| 
 | Ark Udp | 27015 |
 | Ark Tcp | 27015 |
 | Steam Udp | 7778 |
