@@ -1,51 +1,52 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: ark-valguero
+  name: ark-server
   namespace: ark
 spec:
   selector:
     matchLabels:
-      run: ark-valguero
+      run: ark-server
+  serviceName: "ark-server"
   replicas: 1
   template:
     metadata:
       labels:
-        run: ark-valguero
+        run: ark-server
     spec:
       containers:
-      - name: ark-valguero
+      - name: ark-server
         image: cyrilbkr/ark
         env:
           - name: ADMINPASSWORD
-            value: "my_password"
+            value: "admin"
           - name: NBPLAYERS
             value: "10"
           - name: SESSIONNAME
-            value: "my_session_name"
+            value: "k8s-ark"
           - name: SERVERPASSWORD
-            value: "server_password"
+            value: ""
           - name: SERVERMAP
-            value: "map_name"
+            value: "TheIsland"
           - name: TZ
             value: "XX_country"
         ports:
         - containerPort: 27015
           hostPort: 27015
-          name: serverport 
-          protocol: TCP
-        - containerPort: 27015
-          hostPort: 27015
-          name: serverportudp
+          name: serverport
           protocol: UDP
         - containerPort: 7778
           hostPort: 7778
           name: steam
-          protocol: TCP
-        - containerPort: 7778
-          hostPort: 7778
-          name: steamudp
           protocol: UDP
         - containerPort: 32330
           hostPort: 32330
           name: rcon
+        volumeMounts:
+        - mountPath: /ark
+          name: ark-server
+      volumes:
+      - name: ark-server
+        hostPath:
+          path: /data/ark-server
+          type: Directory

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ark-server
+  namespace: ark
+spec:
+  selector:
+    matchLabels:
+      run: ark-server
+  serviceName: "ark-server"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: ark-server
+    spec:
+      containers:
+      - name: ark-server
+        image: cyrilbkr/ark
+        imagePullPolicy: Always
+        env:
+          - name: ADMINPASSWORD
+            value: "admin"
+          - name: NBPLAYERS
+            value: "10"
+          - name: SESSIONNAME
+            value: "k8s-ark"
+          - name: SERVERMAP
+            value: "TheIsland"
+          - name: TZ
+            value: "France"
+          - name: SERVERPORT
+            value: "27018"
+          - name: STEAMPORT
+            value: "7781"
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "1"
+          limits:
+            memory: "16Gi"
+            cpu: "2"
+        volumeMounts:
+          - name: ark-server-data
+            mountPath: /ark
+        ports:
+        - containerPort: 27018
+          name: serverport
+          protocol: UDP
+        - containerPort: 7781
+          name: steam
+          protocol: UDP
+        - containerPort: 32330
+          name: rcon
+          protocol: TCP
+      volumes:
+        - name: ark-server-data
+          persistentVolumeClaim:
+            claimName: ark-server-pvc

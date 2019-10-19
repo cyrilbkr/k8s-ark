@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ark-test
-        image: cyrilbkr/ark:develop
+        image: cyrilbkr/ark
         imagePullPolicy: Always
         env:
           - name: ADMINPASSWORD

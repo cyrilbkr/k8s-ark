@@ -11,19 +11,31 @@ This statefullset request at least 1 cpu core & 4 Gb ram free for running, you c
 
 ### Quick simple setup for testing (no persistence) exposed with nodeport
 
-    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/namespace.yaml
-    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/service.yaml
-    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/develop/statefullset.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/namespace.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/service.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/statefulset.yaml
     
-### GCP/GKE Production setup
+### GCP/GKE Production setup 
 
+This configuration include a pvc of 50GB and a LoadBalancer with udp ports exposed.
 
-### AWS/EKS Production setup
+Customize yaml files from gke/ directory or apply directly from github.com : 
 
+    $ kubectl apply -f gke/namespace.yaml
+    $ kubectl apply -f gke/pvc.yaml
+    $ kubectl apply -f gke/service.yaml
+    $ kubectl apply -f gke/stafulset.yaml
 
-### Other setup configurations setup
+or
 
-Alternative configurations are available in the k8s_alternative_config directoty.
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/namespace.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/pvc.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/service.yaml
+    $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/statefulset.yaml
+
+### Other setup configurations examples
+
+Alternative configurations are available in the k8s-alternative-config directory.
 
 #### Deployment in hostport with hostdir
 
@@ -55,7 +67,7 @@ Ports need to be mapped as environment variables
 
 * /ark
 
-Disk space depend of the map, but ususally you need between 10 GB and 30 GB to be safe. This do not include mods if you hack this configuration.
+Disk space depend of the map, but usually you need between 10 GB and 30 GB to be safe. This do not include mods if you hack this configuration.
 
 
 
