@@ -6,7 +6,7 @@ Kubernetes configuration & Docker images to manage an Ark : Survival Evolved ser
 
 The most common way to run Ark is using a single statefull set with a service attached.
 
-This statefullset request at least 1 cpu core & 4 Gb ram free for running, you can customize this in the stefullset yaml files if needed.
+This statefullset request at least 1 cpu core & 4 Gb ram free for running, you can customize this in the statefulset yaml files if needed.
 
 
 ### Quick simple setup for testing (no persistence) exposed with nodeport
@@ -17,9 +17,9 @@ This statefullset request at least 1 cpu core & 4 Gb ram free for running, you c
     
 ### GCP/GKE Production setup 
 
-This configuration include a pvc of 50GB and a LoadBalancer with udp ports exposed.
+This configuration include a pvc of 50GB and a public LoadBalancer with udp ports exposed.
 
-Customize yaml files from gke/ directory or apply directly from github.com : 
+Customize yaml files from gke/ directory or apply it directly from github : 
 
     $ kubectl apply -f gke/namespace.yaml
     $ kubectl apply -f gke/pvc.yaml
@@ -33,11 +33,9 @@ or
     $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/service.yaml
     $ kubectl apply -f  https://raw.githubusercontent.com/cyrilbkr/k8s-ark/master/gke/statefulset.yaml
 
-### Other setup configurations examples
+### Other setup configuration examples
 
 Alternative configurations are available in the k8s-alternative-config directory.
-
-#### Deployment in hostport with hostdir
 
 ## Env Variables
 
@@ -55,7 +53,7 @@ Alternative configurations are available in the k8s-alternative-config directory
 
 ## Ports
 
-Ports need to be mapped as environment variables
+Ports need to be mapped as environment variables in the statefulset yaml files.
 
 | Port | Description |
 | ------------- |:-------------:| 
@@ -67,11 +65,7 @@ Ports need to be mapped as environment variables
 
 * /ark
 
-Disk space depend of the map, but usually you need between 10 GB and 30 GB to be safe. This do not include mods if you hack this configuration.
-
-
-
-## Customize Ark server parameter
+Disk space depend of the map, but usually you need between 15 GB and 30 GB to be safe. This do not include mods if you hack this configuration.
 
 
 ## Commands
