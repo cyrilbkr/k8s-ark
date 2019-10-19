@@ -26,7 +26,7 @@ spec:
           - name: SESSIONNAME
             value: "k8s-ark"
           - name: SERVERMAP
-            value: "Valguero_P"
+            value: "TheIsland"
           - name: TZ
             value: "France"
           - name: SERVERPORT
@@ -36,15 +36,9 @@ spec:
         ports:
         - containerPort: 27018
           name: serverport
-          protocol: TCP
-        - containerPort: 27018
-          name: serverportudp
           protocol: UDP
         - containerPort: 7781
           name: steam
-          protocol: TCP
-        - containerPort: 7781
-          name: steamudp
           protocol: UDP
         - containerPort: 32330
           name: rcon
