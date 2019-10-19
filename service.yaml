@@ -9,20 +9,12 @@ spec:
   type: NodePort
   ports:
   - port: 27018
-    protocol: TCP
+    protocol: UDP
     name: serverport
     nodePort: 30018
-  - port: 27018
-    protocol: UDP
-    name: serverportudp
-    nodePort: 30018
   - port: 7781
-    protocol: TCP
+    protocol: UDP
     name: steam
-    nodePort: 30781
-  - port: 7781
-    protocol: UDP
-    name: steamudp
     nodePort: 30781
   - port: 32330
     protocol: TCP

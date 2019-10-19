@@ -31,14 +31,7 @@ ENV GID 1000
 
 # Install dependencies 
 RUN apt-get update &&\ 
-    apt-get install -y sudo wget curl lib32gcc1 lsof git
-
-# Install rcon cli
-RUN wget https://github.com/itzg/rcon-cli/releases/download/1.4.7/rcon-cli_1.4.7_linux_amd64.tar.gz  
-RUN tar -xvf rcon-cli_1.4.7_linux_amd64.tar.gz  
-RUN mv rcon-cli /usr/local/bin/
-RUN rm -f LICENSE README.md rcon-cli_1.4.7_linux_amd64.tar.gz
-
+    apt-get install -y sudo vim wget curl lib32gcc1 lsof git
 
 # Enable passwordless sudo for users under the "sudo" group
 RUN sed -i.bkp -e \
@@ -58,8 +51,6 @@ RUN usermod -a -G sudo steam
 COPY /docker-conf/run.sh /home/steam/run.sh
 COPY /docker-conf/arkcmd.sh /home/steam/user.sh
 COPY /docker-conf/arkmanager-user.cfg /home/steam/arkmanager.cfg
-COPY /docker-conf/Game.ini /tmp/Game.ini
-COPY /docker-conf/GameUserSettings.ini /tmp/GameUserSettings.ini
 
 RUN touch /root/.bash_profile
 RUN chmod 777 /home/steam/run.sh

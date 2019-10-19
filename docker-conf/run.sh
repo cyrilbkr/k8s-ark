@@ -56,7 +56,6 @@ else
 	fi
 fi
 
-# Copy custom server settings
 
 
 # Launching ark server
